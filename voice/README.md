@@ -1,0 +1,1 @@
+folder for voice.wav/voice.wav.txt

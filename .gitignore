@@ -4,4 +4,6 @@ models/*.bin
 models/*.ggml
 models/*.onnx
 test.wav
-voice
+voice/*.wav
+voice/*.wav.txt
+voice/*.webm
