@@ -1,0 +1,7 @@
+node_modules
+# whisper models (too large for GitHub)
+models/*.bin
+models/*.ggml
+models/*.onnx
+test.wav
+voice

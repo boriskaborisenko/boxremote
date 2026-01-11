@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="top">
+      <div class="pill">
+        <div id="dot" class="dot"></div>
+        <input id="t" class="input" placeholder="Type to send…" />
+        <button class="send" onclick="sendText()">Send</button>
+        <!-- <button class="send" id="micBtn">Voice</button> -->
+      </div>
+
+      <div class="small" id="status">adb</div>
+    </div>
+
+    <div class="dpad">
+      <button class="dpad-btn up" onclick="k('up')" aria-label="Up">
+        <span class="material-symbols-outlined"> keyboard_arrow_up </span>
+      </button>
+      <button class="dpad-btn left" onclick="k('left')" aria-label="Left">
+        <span class="material-symbols-outlined"> keyboard_arrow_left </span>
+      </button>
+      <button class="dpad-btn right" onclick="k('right')" aria-label="Right">
+        <span class="material-symbols-outlined"> keyboard_arrow_right </span>
+      </button>
+      <button class="dpad-btn down" onclick="k('down')" aria-label="Down">
+        <span class="material-symbols-outlined"> keyboard_arrow_down </span>
+      </button>
+
+      <button class="dpad-ok" onclick="k('ok')" aria-label="OK"></button>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" onclick="k('back')" aria-label="Back">
+        <span class="material-symbols-outlined"> arrow_back </span>
+      </button>
+      <button class="nav-btn" onclick="k('home')" aria-label="Home">
+        <span class="material-symbols-outlined"> home </span>
+      </button>
+      <button class="nav-btn assist" onclick="k('menu')" aria-label="Menu">
+        <span class="material-symbols-outlined"> menu </span>
+      </button>
+      <!-- VOICE -->
+  <button class="nav-btn voice" id="micBtn" aria-label="Voice">
+    <span class="material-symbols-outlined"> mic </span>
+  </button>
+    </div>
+
+    <div class="vol-row">
+      <button class="mute-btn" onclick="k('mute')" aria-label="Mute">
+        <span class="material-symbols-outlined" style="color: white">
+          volume_off
+        </span>
+      </button>
+
+      <div class="vol-pill">
+        <button
+          class="vol-half"
+          onclick="k('voldown')"
+          aria-label="Volume Down"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="color: rgba(255, 255, 255, 0.7); font-size: 2.4rem"
+          >
+            volume_down
+          </span>
+        </button>
+        <div class="vol-divider"></div>
+        <button class="vol-half" onclick="k('volup')" aria-label="Volume Up">
+          <span
+            class="material-symbols-outlined"
+            style="color: rgba(255, 255, 255, 0.7); font-size: 2.4rem"
+          >
+            volume_up
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      console.log("INLINE SCRIPT OK");
+    </script>
+    <script src="/script.js?v=1230003232"></script>
+  </body>
+</html>

@@ -1,0 +1,358 @@
+:root {
+  --bg: #0f1115;
+  --panel: #1e222b;
+  --panel2: #2a2f3a;
+  --panel3: #343a46;
+  --text: #fff;
+  --muted: rgba(255, 255, 255, 0.65);
+  --ok: #2d7dff;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 14px 18px;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* top input */
+.top {
+  width: 100%;
+  max-width: 720px;
+}
+.pill {
+  background: var(--panel);
+  border-radius: 999px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #777;
+  flex: 0 0 auto;
+}
+.dot.ok {
+  background: #35d07f;
+}
+.input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--text);
+  font-size: 16px;
+}
+.send {
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--ok);
+  color: var(--text);
+  border: 0;
+  font-weight: 700;
+  font-size: 14px;
+}
+.send:active {
+  opacity: 0.85;
+}
+.small {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ===== D-PAD (Google TV style) ===== */
+.dpad {
+  position: relative;
+  width: min(86vw, 430px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: block;
+  margin-top: 8px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.dpad-ok {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 44%;
+  height: 44%;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.16);
+}
+.dpad-ok:active {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translate(-50%, -50%) scale(0.985);
+}
+
+.dpad-btn {
+  position: absolute;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  width: 34%;
+  height: 34%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+.dpad-btn:active {
+  color: rgba(255, 255, 255, 0.55);
+  transform: scale(0.985);
+}
+
+.dpad-btn.up {
+  left: 33%;
+  top: 4%;
+}
+.dpad-btn.down {
+  left: 33%;
+  bottom: 4%;
+}
+.dpad-btn.left {
+  left: 4%;
+  top: 33%;
+}
+.dpad-btn.right {
+  right: 4%;
+  top: 33%;
+}
+
+/* middle row (back/home/assist) */
+.nav-row {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.nav-btn {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-btn:active {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(0.985);
+}
+
+.home-icon {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-bottom: 0;
+  transform: rotate(45deg);
+  position: relative;
+}
+.home-icon:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 18px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-top: 0;
+  background: transparent;
+}
+
+.assist {
+  background: rgba(255, 255, 255, 0.8);
+  color: #111;
+}
+.assist:active {
+  opacity: 0.9;
+}
+.dots {
+  display: flex;
+  gap: 6px;
+}
+.dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #111;
+  display: block;
+}
+
+/* bottom volume row */
+.vol-row {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.mute-btn {
+  width: 86px;
+  height: 86px;
+  border-radius: 26px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mute-btn:active {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(0.985);
+}
+
+.mute-icon {
+  width: 28px;
+  height: 22px;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-right: 0;
+  border-radius: 6px 0 0 6px;
+}
+.mute-icon:before {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid rgba(255, 255, 255, 0.85);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.mute-icon:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  transform: translate(-50%, -50%) rotate(-35deg);
+  border-radius: 2px;
+}
+
+.vol-pill {
+  flex: 1;
+  height: 86px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  overflow: hidden;
+}
+.vol-half {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vol-half:active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.vol-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.vol-icon {
+  width: 26px;
+  height: 20px;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-right: 0;
+  border-radius: 6px 0 0 6px;
+}
+.vol-icon:before {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid rgba(255, 255, 255, 0.85);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+/* make it feel like the screenshot on tall phones */
+@media (max-height: 720px) {
+  .nav-btn,
+  .mute-btn,
+  .vol-pill {
+    height: 76px;
+  }
+  .nav-btn {
+    width: 76px;
+  }
+  .mute-btn {
+    width: 76px;
+  }
+  .dpad-btn {
+    font-size: 40px;
+  }
+}
+
+#micBtn {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.nav-btn.voice {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-btn.voice.recording {
+  background: #ff3b30; /* iOS red */
+  box-shadow: 0 0 18px rgba(255, 59, 48, 0.8);
+}
+
+.nav-btn.voice.recording span {
+  color: white;
+}
+
