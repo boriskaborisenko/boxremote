@@ -273,15 +273,51 @@ app.post("/voice-save", upload.single("audio"), async (req, res) => {
 
 
 // ===== START (HTTPS) =====
-const httpsOptions = {
+/* const httpsOptions = {
   key: fs.readFileSync(path.join(__dirname, "key.pem")),
-  cert: fs.readFileSync(path.join(__dirname, "cert.pem")),
+  cert: fs.readFileSync(path.join(__dirname, "boxremote.pem")),
+}; */
+const httpsOptions = {
+  key: fs.readFileSync(path.join(__dirname, "192.168.100.85-key.pem")),
+  cert: fs.readFileSync(path.join(__dirname, "192.168.100.85.pem")),
 };
 
 https.createServer(httpsOptions, app).listen(PORT, "0.0.0.0", () => {
   console.log(`Remote running on https://192.168.100.85:${PORT}`);
 });
 
+/////////////////////////////////////////////////
+
+// say (for Siri Shortcuts / external triggers)
+app.get("/say", async (req, res) => {
+  const sid = getSid(req);
+  const text = String(req.query.text || "").trim();
+  if (!text) return res.status(400).json({ ok: false, error: "missing text" });
+
+  log(sid, "SAY", "recv", text.slice(0, 200));
+
+  const action = handleVoicePhrase({ sid, text });
+
+  if (action.type === "key" && action.key) {
+    const code = KEYS[action.key];
+    if (!code) {
+      log(sid, "ADB", "unknown_key", String(action.key));
+      return res.json({ ok: true, text, words: action.words || [], action });
+    }
+
+    const rr = await adbShell(["input", "keyevent", String(code)]);
+    log(sid, "ADB", rr.ok ? `key_ok:${action.key}` : `key_fail:${action.key}`);
+
+    return res.json({ ok: true, text, words: action.words || [], action });
+  }
+
+  // fallback: type text
+  const safe = escapeForAdbText(text);
+  const r = await adbShell(["input", "text", safe]);
+  log(sid, "ADB", r.ok ? "text_ok" : "text_fail");
+
+  return res.json({ ok: true, text, words: action.words || [], action });
+});
 
 
 
