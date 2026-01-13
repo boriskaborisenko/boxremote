@@ -356,3 +356,33 @@ body {
   color: white;
 }
 
+
+#status{
+  color:rgba(255,255,255,0.3);
+  font-weight: bold;
+}
+
+.powerblock{
+  width: 90%;
+  background: transparent;
+  display: flex;
+  justify-content:center;
+}
+
+.tvio{
+  border-radius: 100px;
+  padding:10px;
+  border:1px solid rgba(255,255,255,0.3);
+  background: black;
+    touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  width:24px;
+  height: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  color:rgba(255,255,255,0.5);
+  display: flex;
+  justify-content:center;
+}

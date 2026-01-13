@@ -32,8 +32,10 @@ const LAST_WEBM = path.join(VOICE_DIR, "last.webm");
 const LAST_WAV = path.join(VOICE_DIR, "last.wav");
 const LAST_TXT = path.join(VOICE_DIR, "last.wav.txt");
 
+let boxSleeping = false;
 // ===== ANDROID KEYS =====
 const KEYS = {
+  power: 0, // special marker
   up: 19,
   down: 20,
   left: 21,
@@ -156,11 +158,36 @@ app.post("/api/log", (req, res) => {
 });
 
 // buttons
-app.get("/key/:name", async (req, res) => {
+/* app.get("/key/:name", async (req, res) => {
   const code = KEYS[req.params.name];
   if (!code) return res.status(400).send("bad key");
   const r = await adbShell(["input", "keyevent", String(code)]);
   if (!r.ok) return res.status(500).send(r.error);
+  res.send("ok");
+}); */
+
+app.get("/key/:name", async (req, res) => {
+  const name = req.params.name;
+  const code = KEYS[name];
+
+  if (code === undefined) {
+    return res.status(400).send("bad key");
+  }
+
+  // Special toggle logic for POWER
+  if (code === 0) {
+    const keycode = boxSleeping ? 224 : 223; // wake : sleep
+    const r = await adbShell(["input", "keyevent", String(keycode)]);
+    if (!r.ok) return res.status(500).send(r.error);
+
+    boxSleeping = !boxSleeping;
+    return res.send("ok");
+  }
+
+  // Default behavior
+  const r = await adbShell(["input", "keyevent", String(code)]);
+  if (!r.ok) return res.status(500).send(r.error);
+
   res.send("ok");
 });
 
@@ -289,7 +316,7 @@ https.createServer(httpsOptions, app).listen(PORT, "0.0.0.0", () => {
 /////////////////////////////////////////////////
 
 // say (for Siri Shortcuts / external triggers)
-app.get("/say", async (req, res) => {
+/* app.get("/say", async (req, res) => {
   const sid = getSid(req);
   const text = String(req.query.text || "").trim();
   if (!text) return res.status(400).json({ ok: false, error: "missing text" });
@@ -317,12 +344,66 @@ app.get("/say", async (req, res) => {
   log(sid, "ADB", r.ok ? "text_ok" : "text_fail");
 
   return res.json({ ok: true, text, words: action.words || [], action });
+}); */
+
+app.get("/say", async (req, res) => {
+  const sid = getSid(req);
+  const text = String(req.query.text || "").trim();
+  if (!text) return res.status(400).json({ ok: false, error: "missing text" });
+
+  log(sid, "SAY", "recv", text.slice(0, 200));
+
+  const action = handleVoicePhrase({ sid, text });
+
+  if (action.type === "key" && action.key) {
+    const code = KEYS[action.key];
+
+    // NOTE: code can be 0 (special marker), so only undefined means "unknown"
+    if (code === undefined) {
+      log(sid, "ADB", "unknown_key", String(action.key));
+      return res.json({ ok: true, text, words: action.words || [], action });
+    }
+
+    // Special toggle logic for POWER (code === 0)
+    if (code === 0) {
+      const keycode = boxSleeping ? 224 : 223; // wake : sleep
+      const rr = await adbShell(["input", "keyevent", String(keycode)]);
+      log(
+        sid,
+        "ADB",
+        rr.ok ? `power_${boxSleeping ? "wake" : "sleep"}` : "power_fail",
+      );
+
+      if (rr.ok) boxSleeping = !boxSleeping;
+
+      return res.json({ ok: true, text, words: action.words || [], action });
+    }
+
+    // Default key handling
+    const rr = await adbShell(["input", "keyevent", String(code)]);
+    log(sid, "ADB", rr.ok ? `key_ok:${action.key}` : `key_fail:${action.key}`);
+
+    return res.json({ ok: true, text, words: action.words || [], action });
+  }
+
+  // fallback: type text
+  const safe = escapeForAdbText(text);
+  const r = await adbShell(["input", "text", safe]);
+  log(sid, "ADB", r.ok ? "text_ok" : "text_fail");
+
+  return res.json({ ok: true, text, words: action.words || [], action });
 });
+
 
 
 
 // Voice commands config (single source of truth)
 const VOICE_COMMANDS = [
+  {
+    key: "power",
+    aliases: ["wake","sleep"],
+    maxWords: 2,
+  },
   {
     key: "back",
     aliases: ["назад", "back"],
